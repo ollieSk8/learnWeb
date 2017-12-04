@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50703
+Source Server Version : 50717
 Source Host           : localhost:3306
 Source Database       : learn
 
 Target Server Type    : MYSQL
-Target Server Version : 50703
+Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2016-12-26 17:44:58
+Date: 2017-12-04 16:27:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -29,8 +29,15 @@ CREATE TABLE `aboutus_table` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of aboutus_table
+-- Table structure for admin_table
 -- ----------------------------
+DROP TABLE IF EXISTS `admin_table`;
+CREATE TABLE `admin_table` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(32) NOT NULL,
+  `password` varchar(32) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for banner_table
@@ -43,10 +50,6 @@ CREATE TABLE `banner_table` (
   `href` varchar(300) NOT NULL COMMENT '点击链接',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of banner_table
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for blog_table
@@ -66,10 +69,6 @@ CREATE TABLE `blog_table` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of blog_table
--- ----------------------------
-
--- ----------------------------
 -- Table structure for contact_table
 -- ----------------------------
 DROP TABLE IF EXISTS `contact_table`;
@@ -85,10 +84,6 @@ CREATE TABLE `contact_table` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of contact_table
--- ----------------------------
-
--- ----------------------------
 -- Table structure for custom_evaluation_table
 -- ----------------------------
 DROP TABLE IF EXISTS `custom_evaluation_table`;
@@ -101,10 +96,6 @@ CREATE TABLE `custom_evaluation_table` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of custom_evaluation_table
--- ----------------------------
-
--- ----------------------------
 -- Table structure for intro_table
 -- ----------------------------
 DROP TABLE IF EXISTS `intro_table`;
@@ -115,10 +106,6 @@ CREATE TABLE `intro_table` (
   `href` varchar(300) NOT NULL COMMENT '点击链接',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of intro_table
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for msg_table
@@ -134,10 +121,6 @@ CREATE TABLE `msg_table` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of msg_table
--- ----------------------------
-
--- ----------------------------
 -- Table structure for news_table
 -- ----------------------------
 DROP TABLE IF EXISTS `news_table`;
@@ -150,7 +133,3 @@ CREATE TABLE `news_table` (
   `content` text NOT NULL COMMENT '内容',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of news_table
--- ----------------------------
