@@ -10,7 +10,7 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 const multerObj = multer({dest: './static/upload'});
 const app = express();
-
+app.use(bodyParser.urlencoded({extended:false}));
 app.use(multerObj.any());
 app.use(cookieParser());
 var keys = [];
