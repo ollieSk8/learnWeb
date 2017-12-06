@@ -34,7 +34,9 @@ module.exports = function () {
                 } else {
                     if (data[0].password == password) {
                         req.session['admin_id']=data[0].ID;
+                        req.session['username']=data[0].username;
                         res.redirect('/admin');
+
                     } else {
                         res.status(404).send('This password is not incorrect!').end();
                     }
@@ -43,10 +45,14 @@ module.exports = function () {
         });
     });
     router.get('/login',(req,res)=>{
-        res.render('admin/login.ejs');
+        res.render('admin/login.ejs',{layout:'/admin/layout.ejs',title:'Login'});
+    });
+    router.get('/logout',(req,res)=>{
+        req.session=null;
+        res.redirect('/admin/login');
     });
     router.get('/',(req,res)=>{
-        res.send('恭喜登录成功');
+        res.render('admin/index.ejs',{layout:'/admin/layout.ejs',title:'Index',username:req.session.username});
     });
     return router;
 }

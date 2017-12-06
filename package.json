@@ -27,5 +27,8 @@
     "multer": "^1.3.0",
     "mysql": "^2.15.0",
     "nodemon": "^1.12.1"
+  },
+  "dependencies": {
+    "express-partials": "^0.3.0"
   }
 }

@@ -6,6 +6,7 @@ const mysql = require('mysql');
 const cookieParser = require('cookie-parser');
 const cookieSession = require('cookie-session');
 const consolidate = require('consolidate');
+const partials = require('express-partials');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const multerObj = multer({dest: './static/upload'});
@@ -13,6 +14,7 @@ const app = express();
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(multerObj.any());
 app.use(cookieParser());
+app.use(partials());
 var keys = [];
 for (var i = 0; i < 100000; i++) {
     keys[i]='a_' + Math.random();
@@ -24,9 +26,9 @@ app.use(cookieSession({
 }));
 
 app.engine('html',consolidate.ejs);
-app.set('views','template');
+app.set('views',__dirname +'/template');
 app.set('view engine','html');
 app.use(express.static('./static/'));
 app.use('/',require('./route/web/web.js')());
 app.use('/admin',require('./route/admin/admin.js')());
-app.listen(8080);
+app.listen(3000);
