@@ -1,10 +1,14 @@
 <div style="padding:0 10px;">
     <nav class="navbar navbar-default">
-       <h3>Hi, <%= username %></h3>
-        <a href="/admin/logout">Logout</a>
+        <div class="col-md-8">
+            <h3>Hi, <%= username %></h3>
+        </div>
+        <div class="col-md-4">
+            <a class="btn btn-primary" href="/admin/logout" style="margin-top:10px;float:right;">Logout</a>
+        </div>
     </nav>
 </div>
-<div class="col-md-4">
+<div class="col-md-2">
     <div class="list-group">
         <a href="/admin/banners" class="list-group-item active">
             Banners
