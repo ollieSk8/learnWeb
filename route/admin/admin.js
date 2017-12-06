@@ -4,7 +4,7 @@
 const express = require('express');
 const common = require('../../libs/common');
 const mysql = require('mysql');
-// console.log(common.md5('123456'+common.MD5_SUFFIX));
+const os = require('os');
 var db = mysql.createPool({
     host: '127.0.0.1',
     user: 'root',
@@ -52,7 +52,17 @@ module.exports = function () {
         res.redirect('/admin/login');
     });
     router.get('/',(req,res)=>{
-        res.render('admin/index.ejs',{layout:'/admin/layout.ejs',title:'Index',username:req.session.username});
+        res.render('admin/index.ejs',{
+            layout:'/admin/layout.ejs',
+            title:'Home',username:req.session.username,
+            hostname:os.hostname(),
+            type:os.type(),
+            time:new Date(),
+            release:os.release()
+        });
+    });
+    router.get('/banners',(req,res)=>{
+        res.render('admin/banners.ejs',{layout:'/admin/layout.ejs',title:'banners',username:req.session.username});
     });
     return router;
 }

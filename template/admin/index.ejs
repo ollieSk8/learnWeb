@@ -1,4 +1,21 @@
 <%- include('./header.ejs')%>
 <div class="col-md-10">
-    首页
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Hostname</th>
+            <th>Login Time</th>
+            <th>OS type</th>
+            <th>OS release</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><%= hostname %></td>
+            <td><%= time %></td>
+            <td><%= type %></td>
+            <td><%= release %></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
