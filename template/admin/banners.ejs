@@ -1,4 +1,73 @@
 <%- include('./header.ejs')%>
 <div class="col-md-10">
-    banners
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add New</button>
+    <div style="height: 10px;"></div>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Href</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <%for(var i=0;i<banners.length;i++){%>
+        <tr>
+            <th scope="row" style="width:20%;"><%=banners[i].title%></th>
+            <td style="width:40%;">
+                <%=banners[i].description%>
+            </td>
+            <td style="width:20%;"><%=banners[i].href%></td>
+            <td>
+                <button type="button" class="btn btn-primary">Edit</button>
+                <button type="button" class="btn btn-danger">Delete</button>
+            </td>
+        </tr>
+        <%}%>
+        </tbody>
+    </table>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add New</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="addNew_form">
+                    <div class="form-group">
+                        <label for="add_title" class="col-sm-2 control-label">Title</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="add_title" placeholder="" name="title">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="add_description" class="col-sm-2 control-label">Description</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="3" id="add_description" name="description"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="add_href" class="col-sm-2 control-label">Href</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="add_href" placeholder="" name="href">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="addNew">Add New</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#addNew').on('click',function () {
+       var obj=$('#addNew_form').serializeArray();
+        console.log(obj);
+    });
+</script>
