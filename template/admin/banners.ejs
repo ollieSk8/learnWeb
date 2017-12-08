@@ -137,7 +137,7 @@
         })
     });
     var tmp_delete_id = '';
-    var tmp_edit_id='';
+    var tmp_edit_id = '';
     $('.delete-one-btn').on('click', function () {
         var this_id = $(this).attr('data-id');
         tmp_delete_id = this_id;
@@ -153,25 +153,25 @@
             }
         })
     });
-    $('.edit-one-btn').on('click',function () {
-       var this_id = $(this).attr('data-id');
-        tmp_edit_id=this_id
-       $.ajax({
-           url:'/admin/banners/fetchone/'+tmp_edit_id,
-           type:'get',
-           success:function (data) {
-               if(data.code==0){
-                   $('#edit_title').val(data.data.title);
-                   $('#edit_description').val(data.data.description);
-                   $('#edit_href').val(data.data.href);
-               }
-           }
-       });
+    $('.edit-one-btn').on('click', function () {
+        var this_id = $(this).attr('data-id');
+        tmp_edit_id = this_id
+        $.ajax({
+            url: '/admin/banners/fetchone/' + tmp_edit_id,
+            type: 'get',
+            success: function (data) {
+                if (data.code == 0) {
+                    $('#edit_title').val(data.data.title);
+                    $('#edit_description').val(data.data.description);
+                    $('#edit_href').val(data.data.href);
+                }
+            }
+        });
     });
-    $('#change-btn').on('click',function () {
+    $('#change-btn').on('click', function () {
         var obj = $('#edit_form').serializeArray();
         $.ajax({
-            url: '/admin/banners/edit/'+tmp_edit_id,
+            url: '/admin/banners/edit/' + tmp_edit_id,
             type: 'post',
             data: {
                 title: obj[0].value,
