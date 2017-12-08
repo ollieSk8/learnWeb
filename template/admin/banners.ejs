@@ -20,8 +20,8 @@
             </td>
             <td style="width:20%;"><%=banners[i].href%></td>
             <td>
-                <button type="button" class="btn btn-primary">Edit</button>
-                <button type="button" class="btn btn-danger">Delete</button>
+                <button type="button" class="btn btn-primary edit-one-btn"  data-id="<%=banners[i].ID%>" data-toggle="modal" data-target="#myModal_edit">Edit</button>
+                <button type="button" class="btn btn-danger delete-one-btn" data-id="<%=banners[i].ID%>" data-toggle="modal" data-target="#myModal_delete">Delete</button>
             </td>
         </tr>
         <%}%>
@@ -65,9 +65,124 @@
         </div>
     </div>
 </div>
+<!---->
+<!-- Modal -->
+<div class="modal fade" id="myModal_delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Confirm delete this one?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="delete-btn">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal_edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Edit</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="edit_form">
+                    <div class="form-group">
+                        <label for="add_title" class="col-sm-2 control-label">Title</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="edit_title" placeholder="" name="title">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="add_description" class="col-sm-2 control-label">Description</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="3" id="edit_description" name="description"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="add_href" class="col-sm-2 control-label">Href</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="edit_href" placeholder="" name="href">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="change-btn">Change</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
-    $('#addNew').on('click',function () {
-       var obj=$('#addNew_form').serializeArray();
-        console.log(obj);
+    $('#addNew').on('click', function () {
+        var obj = $('#addNew_form').serializeArray();
+        $.ajax({
+            url: '/admin/banners/addnew',
+            type: 'post',
+            data: {
+                title: obj[0].value,
+                description: obj[1].value,
+                href: obj[2].value
+            },
+            success: function (data) {
+                if (data.code == 0) {
+                    window.location.reload();
+                }
+            }
+        })
     });
+    var tmp_delete_id = '';
+    var tmp_edit_id='';
+    $('.delete-one-btn').on('click', function () {
+        var this_id = $(this).attr('data-id');
+        tmp_delete_id = this_id;
+    });
+    $('#delete-btn').on('click', function () {
+        $.ajax({
+            url: '/admin/banners/delete/' + tmp_delete_id,
+            type: 'post',
+            success: function (data) {
+                if (data.code == 0) {
+                    window.location.reload();
+                }
+            }
+        })
+    });
+    $('.edit-one-btn').on('click',function () {
+       var this_id = $(this).attr('data-id');
+        tmp_edit_id=this_id
+       $.ajax({
+           url:'/admin/banners/fetchone/'+tmp_edit_id,
+           type:'get',
+           success:function (data) {
+               if(data.code==0){
+                   $('#edit_title').val(data.data.title);
+                   $('#edit_description').val(data.data.description);
+                   $('#edit_href').val(data.data.href);
+               }
+           }
+       });
+    });
+    $('#change-btn').on('click',function () {
+        var obj = $('#edit_form').serializeArray();
+        $.ajax({
+            url: '/admin/banners/edit/'+tmp_edit_id,
+            type: 'post',
+            data: {
+                title: obj[0].value,
+                description: obj[1].value,
+                href: obj[2].value
+            },
+            success: function (data) {
+                if (data.code == 0) {
+                    window.location.reload();
+                }
+            }
+        })
+    })
 </script>
