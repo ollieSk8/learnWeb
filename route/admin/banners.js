@@ -31,12 +31,113 @@ module.exports=function () {
         var title=req.body.title;
         var description=req.body.description;
         var href=req.body.href;
-        if(title!==''||description!==''||href!==''){
+        if(title==''||description==''||href==''){
             res.status(200).send({
-                code:0,
+                code:400,
                 msg:'form must be not empty'
             }).end();
+        }else{
+            db.query(`INSERT INTO banner_table (title,description,href) VALUES ('${title}','${description}','${href}')`,(err,data)=>{
+                if(err){
+                    console.log(err);
+                    res.send({code:500,msg:'databases error!'});
+                }else{
+                    res.send({code:0,msg:'success'});
+                }
+            })
         }
+    });
+    router.post('/edit/:id',(req,res)=>{
+        var id=req.params.id;
+        var title=req.body.title;
+        var description=req.body.description;
+        var href=req.body.href;
+        let promise = new Promise(function(resolve, reject) {
+            db.query(`SELECT * FROM banner_table WHERE ID='${id}'`,(err,data)=>{
+                if(err){
+                    console.log(err);
+                    res.send({
+                        code:500,
+                        msg:'database error!'
+                    });
+                }else{
+                    if(data.length==0){
+                        res.send({
+                            code:404,
+                            msg:'this id is not found'
+                        });
+                    }else{
+
+                        if(title==''||description==''||href==''){
+                            res.send({
+                                code:400,
+                                msg:'form data must be not empty'
+                            });
+                        }else{
+                            resolve({id,title,description,href})
+                        }
+                    }
+                }
+            });
+
+        });
+        promise.then((obj)=>{
+            db.query(`UPDATE banner_table SET title='${obj.title}',description='${obj.description}',href='${obj.href}' WHERE ID='${obj.id}'`,(err,data)=>{
+                if(err){
+                    console.log(err);
+                    res.send({
+                        code:500,
+                        msg:'database error!'
+                    });
+                }else{
+                    res.send({
+                        code:0,
+                        msg:'edit one success!'
+                    });
+                }
+            });
+        });
+
+    });
+    router.post('/delete/:id',(req,res)=>{
+        var id=req.params.id;
+        let promise = new Promise(function(resolve, reject) {
+            db.query(`SELECT * FROM banner_table WHERE ID='${id}'`,(err,data)=>{
+                if(err){
+                    console.log(err);
+                    res.send({
+                        code:500,
+                        msg:'database error!'
+                    });
+                }else{
+                    if(data.length==0){
+                        res.send({
+                            code:404,
+                            msg:'this id is not found'
+                        });
+                    }else{
+                        resolve(id);
+                    }
+                }
+            });
+
+        });
+        promise.then((id)=>{
+            db.query(`DELETE FROM banner_table WHERE ID='${id}'`,(err,data)=>{
+                if(err){
+                    console.log(err);
+                    res.send({
+                        code:500,
+                        msg:'database error!'
+                    });
+                }else{
+                    res.send({
+                        code:0,
+                        msg:'delete done'
+                    });
+                }
+            });
+        });
     });
     return router;
 }
